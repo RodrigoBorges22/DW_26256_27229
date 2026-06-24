@@ -9,8 +9,8 @@ public class Evento
 
     // Chave Estrangeira para a Categoria
     public int CategoriaId { get; set; }
-    public Categoria Categoria { get; set; }
+    public Categoria? Categoria { get; set; }
 
     // Propriedade de navegação
-    public ICollection<Inscricao> Inscricoes { get; set; }
+    public ICollection<Inscricao>? Inscricoes { get; set; }
 }
