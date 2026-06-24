@@ -1,0 +1,25 @@
+### Testar a criação de um evento novo
+POST http://localhost:5066/api/EventosApi
+Content-Type: application/json
+
+{
+  "titulo": "Festa de Fim de Semestre",
+  "dataHora": "2026-07-15T22:00:00",
+  "vagasMaximas": 150,
+  "categoriaId": 2
+}
+
+### Testar apagar o evento com o ID 3
+DELETE http://localhost:5066/api/EventosApi/3
+
+### Testar a edição do evento com o ID 2
+PUT http://localhost:5066/api/EventosApi/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "titulo": "Torneio Local Co-op - Edição Especial",
+  "dataHora": "2026-11-10T18:30:00",
+  "vagasMaximas": 32,
+  "categoriaId": 3
+}
