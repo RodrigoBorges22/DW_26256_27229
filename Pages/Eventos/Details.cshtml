@@ -1,0 +1,43 @@
+@page
+@model DW_26256_27229.Pages_Eventos.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Evento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evento.Titulo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evento.Titulo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evento.DataHora)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evento.DataHora)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evento.VagasMaximas)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evento.VagasMaximas)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Evento.Categoria)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Evento.Categoria.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Evento.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
