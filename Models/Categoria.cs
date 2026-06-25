@@ -6,5 +6,5 @@ public class Categoria
     public string Nome { get; set; }
     
     // Propriedade de navegação (Uma Categoria tem vários Eventos)
-    public ICollection<Evento> Eventos { get; set; }
+    public ICollection<Evento>? Eventos { get; set; }
 }
