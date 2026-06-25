@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@{
+    var tipoUtilizador = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
+}
 <html lang="en">
 
 <head>
@@ -25,20 +28,44 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Categorias/Index">Categorias</a>
-                        </li>
+                        
+                        @if (tipoUtilizador == "Professor" || tipoUtilizador == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Categorias/Index">Categorias</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Eventos/Index">Eventos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Inscricoes/Index">Inscrições</a>
-                        </li>
+
+                        @if (tipoUtilizador == "Aluno")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Inscricoes/Index">Inscrições</a>
+                            </li>
+                        }
                     </ul>
-                </div>
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="nav-link text-primary fw-bold me-3">
+                                     Olá, @User.Identity.Name!
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-page="/Logout" method="post" class="m-0">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm mt-1">
+                                        Sair
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                    </div>
             </div>
         </nav>
     </header>
