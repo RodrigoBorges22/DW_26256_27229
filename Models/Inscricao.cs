@@ -6,11 +6,11 @@ public class Inscricao
     
     // Chave Estrangeira para o Utilizador
     public int UtilizadorId { get; set; }
-    public Utilizador Utilizador { get; set; }
+    public Utilizador? Utilizador { get; set; }
     
     // Chave Estrangeira para o Evento
     public int EventoId { get; set; }
-    public Evento Evento { get; set; }
+    public Evento? Evento { get; set; }
     
     public DateTime DataInscricao { get; set; }
 }

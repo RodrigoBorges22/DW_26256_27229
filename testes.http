@@ -26,3 +26,15 @@ Content-Type: application/json
 
 ### Testar listar todas as categorias
 GET http://localhost:5066/api/CategoriasApi
+
+### Testar listar inscrições
+GET http://localhost:5066/api/InscricoesApi
+
+### Testar criar uma nova inscrição
+POST http://localhost:5066/api/InscricoesApi
+Content-Type: application/json
+
+{
+  "eventoId": 2,
+  "utilizadorId": 1
+}
