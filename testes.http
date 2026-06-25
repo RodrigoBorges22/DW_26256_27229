@@ -23,3 +23,6 @@ Content-Type: application/json
   "vagasMaximas": 32,
   "categoriaId": 3
 }
+
+### Testar listar todas as categorias
+GET http://localhost:5066/api/CategoriasApi
