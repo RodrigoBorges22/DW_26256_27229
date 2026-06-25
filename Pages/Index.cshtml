@@ -1,8 +1,71 @@
 ﻿@page
 @model IndexModel
-@{ViewData["Title"]="Home";}
-<div class="text-center">
-<h1 class="display-4">Bem-vindo aos Eventos</h1>
-<p> Descobre e inscreve-te nos melhores workshops </p>
-<a asp-page="/Eventos/Index" class="btn btn-primary">Ver Eventos</a>
+@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-extrabold text-dark mb-3" style="letter-spacing: -1px;">
+            Plataforma de <span class="text-primary bg-light px-3 rounded-3">Gestão de Eventos</span>
+        </h1>
+        <p class="lead text-muted mx-auto" style="max-width: 650px; font-size: 1.2rem;">
+            Aproximamos a comunidade académica através do conhecimento. Escolha o seu perfil abaixo para aceder ao ecossistema de workshops, palestras e formações.
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center mt-2">
+        
+        <div class="col-12 col-md-5 col-lg-4">
+            <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4 hover-card" style="background: #ffffff; border: 1px solid #eaeaea !important;">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <div class="rounded-circle mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: #e3f2fd;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-mortarboard-fill text-primary" viewBox="0 0 16 16">
+                            <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0l6.5-2.6v2.466c0 .53-.227 1.036-.613 1.394-1.255 1.162-4.43 1.638-6.073 1.638-1.644 0-4.819-.476-6.073-1.638A1.92 1.92 0 0 1 1 10.178V7.818l-1 .4v2.16c0 .763.434 1.464 1.118 1.815 1.233.633 3.307 1.207 5.882 1.207 2.575 0 4.649-.574 5.882-1.207A2.14 2.14 0 0 0 15 10.378v-2.56l1-.4a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title fw-bold text-dark mb-2">Sou Professor</h3>
+                    <p class="card-text text-muted mb-4 small">
+                        Crie novos eventos, gira as salas disponíveis, consulte a lista de alunos inscritos e organize as suas atividades com total autonomia.
+                    </p>
+                    <a asp-page="/Login" asp-route-tipo="Professor" class="btn btn-primary w-100 py-2.5 fw-bold rounded-3 shadow-sm mt-auto">
+                        Entrar como Professor
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-5 col-lg-4">
+            <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4 hover-card" style="background: #ffffff; border: 1px solid #eaeaea !important;">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <div class="rounded-circle mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: #e8f5e9;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-badge-fill text-success" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C13 11.161 11.134 9.5 8 9.5S3 11.161 3 13.755V14h10v-.245z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title fw-bold text-dark mb-2">Sou Aluno</h3>
+                    <p class="card-text text-muted mb-4 small">
+                        Explore o catálogo de workshops, garanta o seu lugar nas sessões antes que esgotem e consulte o seu histórico de inscrições.
+                    </p>
+                    <a asp-page="/Login" asp-route-tipo="Aluno" class="btn btn-success w-100 py-2.5 fw-bold rounded-3 shadow-sm mt-auto" style="background-color: #198754; border-color: #198754;">
+                        Entrar como Aluno
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.08) !important;
+    }
+    .fw-extrabold {
+        font-weight: 800;
+    }
+</style>
