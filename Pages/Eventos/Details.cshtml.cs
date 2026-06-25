@@ -28,7 +28,12 @@ namespace DW_26256_27229.Pages_Eventos
                 return NotFound();
             }
 
-            var evento = await _context.Eventos.FirstOrDefaultAsync(m => m.Id == id);
+            // --- ADICIONADO: O Include da Categoria e das Inscricoes ---
+            var evento = await _context.Eventos
+                .Include(e => e.Categoria)
+                .Include(e => e.Inscricoes) 
+                .FirstOrDefaultAsync(m => m.Id == id);
+            // -----------------------------------------------------------
 
             if (evento is not null)
             {

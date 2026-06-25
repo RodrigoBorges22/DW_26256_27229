@@ -36,7 +36,7 @@ namespace DW_26256_27229.Pages_Eventos
                 return NotFound();
             }
             Evento = evento;
-           ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
+           ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nome");
             return Page();
         }
 
