@@ -1,10 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Data;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ADICIONADO: Configuração do Motor de Autenticação por Cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        // Se alguém tentar aceder a uma página bloqueada, é atirado para aqui:
+        options.LoginPath = "/Login"; 
+    });
+// --------------------------------------------------------------------
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -27,6 +37,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+// ADICIONADO
+app.UseAuthentication(); 
+// -------------------------------------------------------------------------
 
 app.UseAuthorization();
 

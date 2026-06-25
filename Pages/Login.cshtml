@@ -12,6 +12,8 @@
                     <h2 class="text-center fw-bold mb-4">Entrar como @Model.Tipo</h2>
                     
                     <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3 text-center"></div>
+                        
                         <input type="hidden" asp-for="Tipo" />
 
                         <div class="mb-3">
