@@ -8,5 +8,5 @@ public class Utilizador
     public string TipoUtilizador { get; set; } // Ex: "Professor" ou "Aluno"
     
     // Propriedade de navegação (Um Utilizador faz várias Inscrições)
-    public ICollection<Inscricao> Inscricoes { get; set; }
+    public ICollection<Inscricao>? Inscricoes { get; set; }
 }

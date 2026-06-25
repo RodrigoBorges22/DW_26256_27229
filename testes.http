@@ -38,3 +38,13 @@ Content-Type: application/json
   "eventoId": 2,
   "utilizadorId": 1
 }
+
+### Testar criar um novo utilizador (Aluno)
+POST http://localhost:5066/api/UtilizadoresApi
+Content-Type: application/json
+
+{
+  "nome": "Joãozinho",
+  "email": "joaozinho@ipt.pt",
+  "tipoUtilizador": "Aluno"
+}
