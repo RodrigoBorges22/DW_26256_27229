@@ -1,0 +1,46 @@
+@page
+@model DW_26256_27229.Pages.LoginModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="card-body">
+                    <h2 class="text-center fw-bold mb-4">Entrar como @Model.Tipo</h2>
+                    
+                    <form method="post">
+                        <input type="hidden" asp-for="Tipo" />
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-semibold">Email</label>
+                            <input asp-for="Email" type="email" class="form-control py-2" placeholder="O seu email" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Password" class="form-label fw-semibold">Palavra-passe</label>
+                            <input asp-for="Password" type="password" class="form-control py-2" placeholder="A sua palavra-passe" required />
+                        </div>
+
+                        <button type="submit" class="btn @(Model.Tipo == "Professor" ? "btn-primary" : "btn-success") w-100 py-2.5 fw-bold rounded-3 mb-4">
+                            Entrar
+                        </button>
+
+                        <hr class="text-muted" />
+
+                        <div class="text-center mt-3">
+                            <p class="mb-0 text-muted">
+                                Não tem conta? 
+                                <a asp-page="/Registo" asp-route-tipo="@Model.Tipo" class="text-decoration-none fw-bold @(Model.Tipo == "Professor" ? "text-primary" : "text-success")">
+                                    Registe-se aqui!
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
