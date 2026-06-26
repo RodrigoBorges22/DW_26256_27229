@@ -23,21 +23,12 @@ namespace DW_26256_27229.Pages_Inscricoes
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var inscricao = await _context.Inscricoes.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (inscricao is not null)
-            {
-                Inscricao = inscricao;
-
-                return Page();
-            }
-
-            return NotFound();
+            if (id == null) return NotFound();
+            var inscricao = await _context.Inscricoes.Include(i => i.Evento).Include(i => i.Utilizador).FirstOrDefaultAsync(m => m.Id == id);
+            if (inscricao == null) return NotFound();
+            Inscricao = inscricao;
+            return Page();
         }
     }
 }
+    
