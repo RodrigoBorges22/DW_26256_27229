@@ -2,66 +2,68 @@
 @model DW_26256_27229.Pages_Eventos.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Evento";
 }
 
-<h1>Details</h1>
+<h1 class="fw-bold mb-4 text-dark">@Model.Evento.Titulo</h1>
 
-<div>
-    <h4>Evento</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Título
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evento.Titulo)
-        </dd>
+<div class="row">
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-primary mb-4">Informações do Evento</h5>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-secondary mb-2">Data e Hora</dt>
+                    <dd class="col-sm-8 fw-semibold mb-2">@Html.DisplayFor(model => model.Evento.DataHora)</dd>
 
-        <dt class="col-sm-2">
-            Data e Hora
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Evento.DataHora)
-        </dd>
+                    <dt class="col-sm-4 text-secondary mb-2">Categoria</dt>
+                    <dd class="col-sm-8 mb-2">@Model.Evento.Categoria?.Nome</dd>
 
-        <dt class="col-sm-2">
-            Ocupação Atual
-        </dt>
-        <dd class="col-sm-10 fw-bold text-primary">
-            @(Model.Evento.Inscricoes?.Count ?? 0) / @Model.Evento.VagasMaximas vagas preenchidas
-        </dd>
+                    <dt class="col-sm-4 text-secondary mb-2 align-self-center">Ocupação</dt>
+                    <dd class="col-sm-8 fw-bold text-primary mb-2 align-self-center">
+                        <span class="fs-5">@(Model.Evento.Inscricoes?.Count ?? 0)</span> / @Model.Evento.VagasMaximas vagas
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 
-        <dt class="col-sm-2">
-            Categoria
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Evento.Categoria?.Nome
-        </dd>
-    </dl>
+    <div class="col-md-7 mb-4">
+        <h4 class="fw-bold mb-3">Alunos Inscritos</h4>
+        <div class="table-responsive shadow-sm rounded bg-white">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3 text-secondary">Nome do Aluno</th>
+                        <th class="py-3 text-secondary">Data de Inscrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Evento.Inscricoes != null && Model.Evento.Inscricoes.Any())
+                    {
+                        @foreach (var item in Model.Evento.Inscricoes)
+                        {
+                            <tr>
+                                <td>@item.Utilizador.Nome</td>
+                                <td>@item.DataInscricao</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center text-muted py-4">
+                                Ainda não há alunos inscritos neste evento.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-@if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
-{
-    <h4>Alunos Inscritos</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Data</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Evento.Inscricoes)
-            {
-                <tr>
-                    <td>@item.Utilizador.Nome</td>
-                    <td>@item.DataInscricao</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Evento.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+
+<div class="d-flex gap-2 mt-2">
+    <a asp-page="./Edit" asp-route-id="@Model.Evento?.Id" class="btn btn-primary fw-bold px-4">Editar Evento</a>
+    <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>
 </div>

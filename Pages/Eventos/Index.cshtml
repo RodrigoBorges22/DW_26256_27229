@@ -2,66 +2,58 @@
 @model DW_26256_27229.Pages_Eventos.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestão de Eventos";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold m-0">Eventos Disponíveis</h1>
+    
+    <a asp-page="Create" class="btn btn-primary fw-bold shadow-sm">
+        + Criar Novo Evento
+    </a>
+</div>
 
-@if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
-{
-    <p>
-        <a asp-page="Create">Create New</a>
-    </p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Evento[0].Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evento[0].DataHora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evento[0].VagasMaximas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evento[0].Categoria)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Evento)
-        {
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle mb-0 bg-white">
+        <thead class="table-light">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataHora)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VagasMaximas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Categoria.Nome)
-                </td>
-                <td>
-                    @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value == "Aluno")
-                    {
-                        <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id" style="display:inline;">
-                            <button class="btn btn-primary btn-sm">Inscrever</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>@:|
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>@:|
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                </td>
+                <th class="py-3 text-secondary">@Html.DisplayNameFor(model => model.Evento[0].Titulo)</th>
+                <th class="py-3 text-secondary">Data e Hora</th>
+                <th class="py-3 text-secondary">Vagas</th>
+                <th class="py-3 text-secondary">Categoria</th>
+                <th class="py-3 text-secondary text-center">Ações</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Evento) {
+                <tr>
+                    <td class="fw-semibold text-dark">
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataHora)
+                    </td>
+                    <td>
+                        <span class="badge bg-info text-dark">@Html.DisplayFor(modelItem => item.VagasMaximas)</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categoria.Nome)
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
+                                Editar
+                            </a>
+                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="Ver Detalhes">
+                                Detalhes
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Apagar">
+                                Apagar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
