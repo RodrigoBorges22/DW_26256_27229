@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DW_26256_27229.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260625220123_AdicionarPasswordUtilizador")]
+    [Migration("20260626003423_AdicionarPasswordUtilizador")]
     partial class AdicionarPasswordUtilizador
     {
         /// <inheritdoc />

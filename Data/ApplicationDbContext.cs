@@ -39,14 +39,16 @@ public class ApplicationDbContext : DbContext
                 Titulo = "Introdução a Redes Cisco e Routing", 
                 DataHora = new DateTime(2026, 10, 15, 14, 0, 0), 
                 VagasMaximas = 20, 
-                CategoriaId = 1 // Pertence à Categoria 1 (Workshop Técnico)
+                CategoriaId = 1, 
+                UtilizadorId=1
             },
             new Evento { 
                 Id = 2, 
                 Titulo = "Torneio Local Co-op (Rayman Legends)", 
                 DataHora = new DateTime(2026, 11, 10, 18, 30, 0), 
                 VagasMaximas = 16, 
-                CategoriaId = 3 // Pertence à Categoria 3 (Torneio de Gaming)
+                CategoriaId = 3,  
+                UtilizadorId=1
             }
         );
     }
