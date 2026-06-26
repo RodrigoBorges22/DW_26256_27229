@@ -19,13 +19,16 @@ namespace DW_26256_27229.Pages_Inscricoes
             _context = context;
         }
 
-        public IList<Inscricao> Inscricao { get;set; } = default!;
+        public IList<Inscricao> Inscricao { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Inscricao = await _context.Inscricoes
-                .Include(i => i.Evento)
-                .Include(i => i.Utilizador).ToListAsync();
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)!.Value;
+            var userId = _context.Utilizadores.First(u => u.Email == email).Id;
+            var query = _context.Inscricoes.Include(i => i.Evento).Include(i => i.Utilizador).AsQueryable();
+            if (role == "Aluno") query = query.Where(i => i.UtilizadorId == userId);
+            Inscricao = await query.ToListAsync();
         }
     }
 }
