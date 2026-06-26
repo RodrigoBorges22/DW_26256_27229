@@ -32,6 +32,7 @@ namespace DW_26256_27229.Pages_Eventos
             var evento = await _context.Eventos
                 .Include(e => e.Categoria)
                 .Include(e => e.Inscricoes) 
+                .ThenInclude(i => i.Utilizador)
                 .FirstOrDefaultAsync(m => m.Id == id);
             // -----------------------------------------------------------
 
