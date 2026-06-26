@@ -27,6 +27,12 @@ namespace DW_26256_27229.Pages_Eventos
             {
                 _context.Inscricoes.Add(new Inscricao { EventoId = id, UtilizadorId = alunoId, DataInscricao = DateTime.Now });
                 await _context.SaveChangesAsync();
+
+                TempData["MensagemSucesso"] = "Inscrição realizada com sucesso!";
+            }
+            else
+            {
+                TempData["MensagemErro"] = "Não é possível inscrever, já te encontras inscrito neste evento.";
             }
             return RedirectToPage();
         }

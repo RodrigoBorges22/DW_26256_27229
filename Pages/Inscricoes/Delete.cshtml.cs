@@ -29,12 +29,14 @@ namespace DW_26256_27229.Pages_Inscricoes
                 return NotFound();
             }
 
-            var inscricao = await _context.Inscricoes.FirstOrDefaultAsync(m => m.Id == id);
+            var inscricao = await _context.Inscricoes
+                .Include(i => i.Utilizador)
+                .Include(i => i.Evento)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (inscricao is not null)
             {
                 Inscricao = inscricao;
-
                 return Page();
             }
 
@@ -49,6 +51,7 @@ namespace DW_26256_27229.Pages_Inscricoes
             }
 
             var inscricao = await _context.Inscricoes.FindAsync(id);
+                
             if (inscricao != null)
             {
                 Inscricao = inscricao;

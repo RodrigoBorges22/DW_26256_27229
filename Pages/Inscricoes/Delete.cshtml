@@ -2,39 +2,41 @@
 @model DW_26256_27229.Pages_Inscricoes.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Cancelar Inscrição";
 }
 
-<h1>Delete</h1>
+<h1 class="fw-bold mb-4 text-danger">Cancelar Inscrição</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Inscricao</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Inscricao.Utilizador)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Inscricao.Utilizador.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Inscricao.Evento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Inscricao.Evento.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Inscricao.DataInscricao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Inscricao.DataInscricao)
-        </dd>
-    </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="Inscricao.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
+<div class="alert alert-danger shadow-sm mb-4 border-0" style="max-width: 600px;">
+    <h5 class="alert-heading fw-bold mb-2">⚠️ Atenção!</h5>
+    <p class="mb-0">Tem a certeza absoluta que deseja cancelar a sua inscrição neste evento? Esta ação não pode ser desfeita.</p>
 </div>
+
+<div class="card shadow-sm border-0 mb-4" style="max-width: 600px;">
+    <div class="card-body p-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-4 text-secondary align-self-center">Aluno</dt>
+            <dd class="col-sm-8 fw-bold fs-5 text-dark mb-2">
+                @Html.DisplayFor(model => model.Inscricao.Utilizador.Nome)
+            </dd>
+
+            <dt class="col-sm-4 text-secondary align-self-center">Evento</dt>
+            <dd class="col-sm-8 fw-semibold text-primary mb-2">
+                @Html.DisplayFor(model => model.Inscricao.Evento.Titulo)
+            </dd>
+
+            <dt class="col-sm-4 text-secondary align-self-center">Data de Inscrição</dt>
+            <dd class="col-sm-8 text-muted mb-0">
+                @Html.DisplayFor(model => model.Inscricao.DataInscricao)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Inscricao.Id" />
+    <div class="d-flex gap-2">
+        <input type="submit" value="Sim, Cancelar Inscrição" class="btn btn-danger fw-bold px-4" />
+        <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>
+    </div>
+</form>

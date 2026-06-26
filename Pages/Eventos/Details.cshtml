@@ -19,6 +19,9 @@
                     <dt class="col-sm-4 text-secondary mb-2">Categoria</dt>
                     <dd class="col-sm-8 mb-2">@Model.Evento.Categoria?.Nome</dd>
 
+                    <dt class="col-sm-4 text-secondary mb-2">Professor</dt>
+                    <dd class="col-sm-8 fw-semibold text-dark mb-2">@Model.Evento.Utilizador?.Nome</dd>
+
                     <dt class="col-sm-4 text-secondary mb-2 align-self-center">Ocupação</dt>
                     <dd class="col-sm-8 fw-bold text-primary mb-2 align-self-center">
                         <span class="fs-5">@(Model.Evento.Inscricoes?.Count ?? 0)</span> / @Model.Evento.VagasMaximas vagas
@@ -64,6 +67,11 @@
 </div>
 
 <div class="d-flex gap-2 mt-2">
-    <a asp-page="./Edit" asp-route-id="@Model.Evento?.Id" class="btn btn-primary fw-bold px-4">Editar Evento</a>
+    
+    @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Evento?.Id" class="btn btn-primary fw-bold px-4">Editar Evento</a>
+    }
+
     <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>
 </div>

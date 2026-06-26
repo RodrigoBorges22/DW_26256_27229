@@ -28,13 +28,12 @@ namespace DW_26256_27229.Pages_Eventos
                 return NotFound();
             }
 
-            // --- ADICIONADO: O Include da Categoria e das Inscricoes ---
             var evento = await _context.Eventos
                 .Include(e => e.Categoria)
+                .Include(e => e.Utilizador) // Puxa os dados do Professor que criou o evento
                 .Include(e => e.Inscricoes) 
-                .ThenInclude(i => i.Utilizador)
+                .ThenInclude(i => i.Utilizador) // Puxa os dados dos Alunos inscritos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            // -----------------------------------------------------------
 
             if (evento is not null)
             {

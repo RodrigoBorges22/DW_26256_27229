@@ -25,9 +25,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
+                        @{
+                            var paginaAtual = ViewContext.RouteData.Values["page"]?.ToString();
+                        }
+                        
+                        @if (paginaAtual != "/Index")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link fw-semibold text-dark" asp-area="" asp-page="/Index">Página Principal</a>
+                            </li>
+                        }
                         
                         @if (tipoUtilizador == "Professor" || tipoUtilizador == "Admin")
                         {

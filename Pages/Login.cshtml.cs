@@ -62,7 +62,7 @@ namespace DW_26256_27229.Pages
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             // 5. Sucesso, Redirecionar para a página principal
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Eventos/Index");
         }
     }
 }

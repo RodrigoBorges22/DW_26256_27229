@@ -8,10 +8,29 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="fw-bold m-0">Eventos Disponíveis</h1>
     
-    <a asp-page="Create" class="btn btn-primary fw-bold shadow-sm">
-        + Criar Novo Evento
-    </a>
+    @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
+    {
+        <a asp-page="Create" class="btn btn-primary fw-bold shadow-sm">
+            + Criar Novo Evento
+        </a>
+    }
 </div>
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <strong>✅ Sucesso!</strong> @TempData["MensagemSucesso"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+        <strong>⚠️ Atenção:</strong> @TempData["MensagemErro"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="table-responsive shadow-sm rounded">
     <table class="table table-hover align-middle mb-0 bg-white">
@@ -41,15 +60,29 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-sm" role="group">
-                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
-                                Editar
-                            </a>
+                            
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value == "Aluno")
+                            {
+                                <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id" style="display:inline;">
+                                    <button type="submit" class="btn btn-outline-success fw-bold me-1" title="Inscrever-me">
+                                        Inscrever
+                                    </button>
+                                </form>
+                            }
+
                             <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="Ver Detalhes">
                                 Detalhes
                             </a>
-                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Apagar">
-                                Apagar
-                            </a>
+                            
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
+                            {
+                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
+                                    Editar
+                                </a>
+                                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Apagar">
+                                    Apagar
+                                </a>
+                            }
                         </div>
                     </td>
                 </tr>
