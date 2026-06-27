@@ -49,9 +49,9 @@
                 <tr>
                     <td class="fw-semibold text-dark">
                         @Html.DisplayFor(modelItem => item.Titulo)
-                        @if (item.Inscricoes != null && item.Inscricoes.Count >= item.VagasMaximas)
+                        @if (item.Inscricoes?.Count >= item.VagasMaximas)
                         {
-                            <span class="badge bg-danger ms-2">Lotado</span>
+                            <span class="badge bg-danger">Lotado</span>
                         }
                     </td>
                     <td>
