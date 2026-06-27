@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/cab351da-9608-48b7-9d21-e330ddddf661/resourceGroups/Grupo-DW-27229-26256/providers/Microsoft.Web/sites/Plataforma-De-Gestão-De-Eventos",
+    "appService.deploySubpath": "publish"
+}
