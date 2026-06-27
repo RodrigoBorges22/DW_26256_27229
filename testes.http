@@ -48,3 +48,6 @@ Content-Type: application/json
   "email": "joaozinho@ipt.pt",
   "tipoUtilizador": "Aluno"
 }
+
+### Testar listar todos os eventos
+GET https://localhost:5066/api/EventosApi

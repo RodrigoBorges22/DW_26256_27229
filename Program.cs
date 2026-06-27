@@ -23,6 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllers();
 builder.Services.AddSignalR();
 var app = builder.Build();
 
@@ -34,9 +35,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-// ADICIONADO
 app.UseAuthentication();
-// -------------------------------------------------------------------------
 
 app.UseAuthorization();
 
