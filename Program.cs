@@ -22,7 +22,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-/ Adiciona os serviços base: páginas web, controladores e (SignalR)
+// Adiciona os serviços base: páginas web, controladores e (SignalR)
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
