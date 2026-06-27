@@ -11,45 +11,33 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Pages_Eventos
 {
+    // Acesso restrito a professores e administradores
     [Authorize(Roles = "Professor, Admin")]
     public class DeleteModel : PageModel
     {
         private readonly DW_26256_27229.Data.ApplicationDbContext _context;
-
-        public DeleteModel(DW_26256_27229.Data.ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public DeleteModel(DW_26256_27229.Data.ApplicationDbContext context) { _context = context; }
 
         [BindProperty]
         public Evento Evento { get; set; } = default!;
 
+        // Carrega os dados do evento para confirmar eliminação
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var evento = await _context.Eventos.FirstOrDefaultAsync(m => m.Id == id);
-
             if (evento is not null)
             {
                 Evento = evento;
-
                 return Page();
             }
-
             return NotFound();
         }
 
+        // Processa a eliminação do evento na base de dados
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var evento = await _context.Eventos.FindAsync(id);
             if (evento != null)
             {
@@ -57,7 +45,6 @@ namespace DW_26256_27229.Pages_Eventos
                 _context.Eventos.Remove(Evento);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToPage("./Index");
         }
     }

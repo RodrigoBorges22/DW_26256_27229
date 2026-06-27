@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Pages_Categorias
 {
+    // Acesso restrito a professores e administradores
     [Authorize(Roles = "Professor, Admin")]
     public class IndexModel : PageModel
     {
@@ -21,8 +22,10 @@ namespace DW_26256_27229.Pages_Categorias
             _context = context;
         }
 
-        public IList<Categoria> Categoria { get;set; } = default!;
+        // Lista para armazenar as categorias lidas da base de dados
+        public IList<Categoria> Categoria { get; set; } = default!;
 
+        // Vai buscar todas as categorias para exibir na listagem
         public async Task OnGetAsync()
         {
             Categoria = await _context.Categorias.ToListAsync();

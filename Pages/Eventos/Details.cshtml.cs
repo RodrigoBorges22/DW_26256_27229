@@ -21,24 +21,21 @@ namespace DW_26256_27229.Pages_Eventos
 
         public Evento Evento { get; set; } = default!;
 
+        // Vai buscar o evento incluindo categorias, professor e lista de alunos inscritos
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var evento = await _context.Eventos
                 .Include(e => e.Categoria)
-                .Include(e => e.Utilizador) // Puxa os dados do Professor que criou o evento
-                .Include(e => e.Inscricoes) 
-                .ThenInclude(i => i.Utilizador) // Puxa os dados dos Alunos inscritos
+                .Include(e => e.Utilizador)
+                .Include(e => e.Inscricoes)
+                .ThenInclude(i => i.Utilizador)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (evento is not null)
             {
                 Evento = evento;
-
                 return Page();
             }
 
