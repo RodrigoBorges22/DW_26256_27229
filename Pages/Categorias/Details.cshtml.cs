@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Pages_Categorias
 {
+    // Acesso restrito a professores e administradores
     [Authorize(Roles = "Professor, Admin")]
     public class DetailsModel : PageModel
     {
@@ -23,19 +24,16 @@ namespace DW_26256_27229.Pages_Categorias
 
         public Categoria Categoria { get; set; } = default!;
 
+        // Vai busca e apresenta os detalhes de uma categoria específica
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var categoria = await _context.Categorias.FirstOrDefaultAsync(m => m.Id == id);
 
             if (categoria is not null)
             {
                 Categoria = categoria;
-
                 return Page();
             }
 

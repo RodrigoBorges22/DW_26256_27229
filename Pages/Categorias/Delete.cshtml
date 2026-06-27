@@ -5,33 +5,41 @@
     ViewData["Title"] = "Apagar Categoria";
 }
 
+// Título de destaque em vermelho
 <h1 class="fw-bold mb-4 text-danger">Apagar Categoria</h1>
 
+// Aviso de segurança sobre a eliminação irreversível
 <div class="alert alert-danger shadow-sm mb-4 border-0" style="max-width: 600px;">
     <h5 class="alert-heading fw-bold mb-2">Atenção!</h5>
-    <p class="mb-0">Tem a certeza absoluta que deseja apagar a categoria <strong>@Html.DisplayFor(model => model.Categoria.Nome)</strong>? Esta ação não pode ser desfeita.</p>
-</div>
-
-<div class="card shadow-sm border-0 mb-4" style="max-width: 600px;">
-    <div class="card-body p-4">
-        <dl class="row mb-0">
-            <dt class="col-sm-4 text-secondary align-self-center">
-                Nome
-            </dt>
-            <dd class="col-sm-8 fw-bold fs-5 text-dark mb-0">
-                @Html.DisplayFor(model => model.Categoria.Nome)
-            </dd>
-        </dl>
+    <p class="mb-0">Tem a certeza absoluta que deseja apagar a categoria <strong>@Html.DisplayFor(model =>
+                    model.Categoria.Nome)</strong>? Esta ação não pode ser desfeita.</p>
     </div>
-</div>
 
-<form method="post">
-    <input type="hidden" asp-for="Categoria.Id" />
-
-    <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3 fs-5"></div>
-
-    <div class="d-flex gap-2">
-        <input type="submit" value="Sim, Apagar" class="btn btn-danger fw-bold px-4" />
-        <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Cancelar e Voltar</a>
+    // Card para exibir os detalhes da categoria
+    <div class="card shadow-sm border-0 mb-4" style="max-width: 600px;">
+        <div class="card-body p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 text-secondary align-self-center">
+                    Nome
+                </dt>
+                <dd class="col-sm-8 fw-bold fs-5 text-dark mb-0">
+                    @Html.DisplayFor(model => model.Categoria.Nome)
+                </dd>
+            </dl>
+        </div>
     </div>
-</form>
+
+    <form method="post">
+        // Campo oculto para manter o ID da categoria no envio
+        <input type="hidden" asp-for="Categoria.Id" />
+
+        // Exibe erros de validação caso ocorram
+        <div asp-validation-summary="ModelOnly" class="text-danger fw-bold mb-3 fs-5"></div>
+
+        <div class="d-flex gap-2">
+            // Botão para confirmar eliminação
+            <input type="submit" value="Sim, Apagar" class="btn btn-danger fw-bold px-4" />
+            // Botão para desistir e retornar
+            <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Cancelar e Voltar</a>
+        </div>
+    </form>

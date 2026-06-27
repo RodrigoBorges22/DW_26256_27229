@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Pages_Categorias
 {
+    // Acesso restrito a professores e administradores
     [Authorize(Roles = "Professor, Admin")]
     public class DeleteModel : PageModel
     {
         private readonly DW_26256_27229.Data.ApplicationDbContext _context;
+
         public DeleteModel(DW_26256_27229.Data.ApplicationDbContext context)
         {
             _context = context;
         }
+
         [BindProperty]
         public Categoria Categoria { get; set; } = default!;
+
+        // Carrega os dados da categoria para confirmar eliminação
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null) return NotFound();
@@ -23,9 +28,13 @@ namespace DW_26256_27229.Pages_Categorias
             if (categoria != null) { Categoria = categoria; return Page(); }
             return NotFound();
         }
+
+        // Processa a eliminação após validação
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null) return NotFound();
+
+            // Bloqueia eliminação se existirem eventos ligados a esta categoria
             var temEventos = await _context.Eventos.AnyAsync(e => e.CategoriaId == id);
             if (temEventos)
             {
@@ -33,6 +42,7 @@ namespace DW_26256_27229.Pages_Categorias
                 Categoria = await _context.Categorias.FindAsync(id);
                 return Page();
             }
+
             var categoria = await _context.Categorias.FindAsync(id);
             if (categoria != null)
             {
