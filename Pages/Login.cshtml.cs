@@ -46,6 +46,12 @@ namespace DW_26256_27229.Pages
                 return Page();
             }
 
+            if (utilizador.TipoUtilizador != Tipo)
+            {
+                ModelState.AddModelError(string.Empty, $"Esta conta não tem permissões para entrar como {Tipo}.");
+                return Page();
+            }
+
             // 3. O utilizador existe! Vamos criar o "Cartão de Acesso" (Claims)
             var claims = new List<Claim>
             {
