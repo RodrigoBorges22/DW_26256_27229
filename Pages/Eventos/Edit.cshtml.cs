@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Data;
 using DW_26256_27229.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Pages_Eventos
 {
+    [Authorize(Roles = "Professor, Admin")]
     public class EditModel : PageModel
     {
         private readonly DW_26256_27229.Data.ApplicationDbContext _context;

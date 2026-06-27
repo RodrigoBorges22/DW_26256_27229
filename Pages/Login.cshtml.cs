@@ -46,13 +46,32 @@ namespace DW_26256_27229.Pages
                 return Page();
             }
 
-            if (utilizador.TipoUtilizador != Tipo)
+            bool temPermissao = false;
+
+            if (Tipo == "Professor")
             {
-                ModelState.AddModelError(string.Empty, $"Esta conta não tem permissões para entrar como {Tipo}.");
+                // Abre a porta para Professores OU Admins
+                if (utilizador.TipoUtilizador == "Professor" || utilizador.TipoUtilizador == "Admin")
+                {
+                    temPermissao = true;
+                }
+            }
+            else if (Tipo == "Aluno")
+            {
+                // Só abre para Alunos
+                if (utilizador.TipoUtilizador == "Aluno")
+                {
+                    temPermissao = true;
+                }
+            }
+
+            if (!temPermissao)
+            {
+                ModelState.AddModelError(string.Empty, $"Acesso negado. Tentaste entrar como {Tipo}, mas a tua conta não tem as permissões necessárias.");
                 return Page();
             }
 
-            // 3. O utilizador existe! Vamos criar o "Cartão de Acesso" (Claims)
+            // 3. O utilizador existe e tem permissão, V criar o "Cartão de Acesso" (Claims)
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, utilizador.Nome),
@@ -67,7 +86,7 @@ namespace DW_26256_27229.Pages
             // 4. Registar a entrada (criar o Cookie no browser)
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            // 5. Sucesso, Redirecionar para a página principal
+            // 5. Sucesso, Redirecionar para a página principal (que agora são os Eventos)
             return RedirectToPage("/Eventos/Index");
         }
     }
