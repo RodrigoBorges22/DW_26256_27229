@@ -29,7 +29,8 @@ public class ApplicationDbContext : DbContext
         // 2. Injetar Utilizadores de Teste
         modelBuilder.Entity<Utilizador>().HasData(
             new Utilizador { Id = 1, Nome = "Administrador Principal", Email = "admin@ipt.pt", TipoUtilizador = "Admin",Password = "123" },
-            new Utilizador { Id = 2, Nome = "Aluno Teste", Email = "aluno@ipt.pt", TipoUtilizador = "Aluno", Password = "123" }
+            new Utilizador { Id = 2, Nome = "Aluno Teste", Email = "aluno@ipt.pt", TipoUtilizador = "Aluno", Password = "123" },
+            new Utilizador { Id = 3, Nome = "Professor Teste", Email = "professor@ipt.pt", TipoUtilizador = "Professor", Password = "123" }
         );
 
         // 3. Injetar Eventos
