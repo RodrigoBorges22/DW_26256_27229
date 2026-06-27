@@ -7,7 +7,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="fw-bold m-0">Eventos Disponíveis</h1>
-    
+
     @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
     {
         <a asp-page="Create" class="btn btn-primary fw-bold shadow-sm">
@@ -44,10 +44,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Evento) {
+            @foreach (var item in Model.Evento)
+            {
                 <tr>
                     <td class="fw-semibold text-dark">
                         @Html.DisplayFor(modelItem => item.Titulo)
+                        @if (item.Inscricoes != null && item.Inscricoes.Count >= item.VagasMaximas)
+                        {
+                            <span class="badge bg-danger ms-2">Lotado</span>
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DataHora)
@@ -60,21 +65,25 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-sm" role="group">
-                            
-                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value == "Aluno")
+
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value ==
+                                   "Aluno")
                             {
-                                <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id" style="display:inline;">
+                                <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id"
+                                      style="display:inline;">
                                     <button type="submit" class="btn btn-outline-success fw-bold me-1" title="Inscrever-me">
                                         Inscrever
                                     </button>
                                 </form>
                             }
 
-                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="Ver Detalhes">
+                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary"
+                               title="Ver Detalhes">
                                 Detalhes
                             </a>
-                            
-                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
+
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value !=
+                                             "Aluno")
                             {
                                 <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
                                     Editar
