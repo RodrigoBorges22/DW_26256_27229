@@ -1,12 +1,9 @@
 @page
 @model DW_26256_27229.Pages_Eventos.DetailsModel
-
 @{
     ViewData["Title"] = "Detalhes do Evento";
 }
-
 <h1 class="fw-bold mb-4 text-dark">@Model.Evento.Titulo</h1>
-
 <div class="row">
     <div class="col-md-5 mb-4">
         <div class="card shadow-sm border-0 h-100">
@@ -15,22 +12,19 @@
                 <dl class="row mb-0">
                     <dt class="col-sm-4 text-secondary mb-2">Data e Hora</dt>
                     <dd class="col-sm-8 fw-semibold mb-2">@Html.DisplayFor(model => model.Evento.DataHora)</dd>
-
                     <dt class="col-sm-4 text-secondary mb-2">Categoria</dt>
                     <dd class="col-sm-8 mb-2">@Model.Evento.Categoria?.Nome</dd>
-
                     <dt class="col-sm-4 text-secondary mb-2">Professor</dt>
                     <dd class="col-sm-8 fw-semibold text-dark mb-2">@Model.Evento.Utilizador?.Nome</dd>
-
                     <dt class="col-sm-4 text-secondary mb-2 align-self-center">Ocupação</dt>
                     <dd class="col-sm-8 fw-bold text-primary mb-2 align-self-center">
-                        <span class="fs-5">@(Model.Evento.Inscricoes?.Count ?? 0)</span> / @Model.Evento.VagasMaximas vagas
+                        <span id="vagasOcupadas" class="fs-5">@(Model.Evento.Inscricoes?.Count ?? 0)</span> /
+                        @Model.Evento.VagasMaximas vagas
                     </dd>
                 </dl>
             </div>
         </div>
     </div>
-
     <div class="col-md-7 mb-4">
         <h4 class="fw-bold mb-3">Alunos Inscritos</h4>
         <div class="table-responsive shadow-sm rounded bg-white">
@@ -65,13 +59,22 @@
         </div>
     </div>
 </div>
-
 <div class="d-flex gap-2 mt-2">
-    
     @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
     {
         <a asp-page="./Edit" asp-route-id="@Model.Evento?.Id" class="btn btn-primary fw-bold px-4">Editar Evento</a>
     }
-
     <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const evtId = "@Model.Evento.Id";
+    const connection = new signalR.HubConnectionBuilder().withUrl("/notificacaoHub").build();
+    connection.on("AtualizarVagas", (id, vagas) => {
+    if (id == evtId) {
+    let el = document.getElementById("vagasOcupadas");
+    if (el) el.innerText = vagas;
+    }
+    });
+    connection.start();
+</script>

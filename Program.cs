@@ -12,7 +12,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         // Se alguém tentar aceder a uma página bloqueada, é atirado para aqui:
-        options.LoginPath = "/Login"; 
+        options.LoginPath = "/Login";
     });
 // --------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,7 +35,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 // ADICIONADO
-app.UseAuthentication(); 
+app.UseAuthentication();
 // -------------------------------------------------------------------------
 
 app.UseAuthorization();
@@ -44,4 +44,5 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 app.MapControllers();
+app.MapHub<DW_26256_27229.Hubs.NotificacaoHub>("/notificacaoHub");
 app.Run();
