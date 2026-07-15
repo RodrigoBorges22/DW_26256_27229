@@ -3,36 +3,37 @@
 @{
     ViewData["Title"] = "Criar Categoria";
 }
+
 <h1 class="fw-bold mb-4">Criar Nova Categoria</h1>
+
 <div class="row">
     <div class="col-md-6">
         <form method="post">
-
-            // Exibe erros de validação gerais do modelo
+            @* Exibe erros de validação gerais do modelo *@
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            
             <div class="form-group mb-4">
-                // Campo para definir nome da categoria
-
+                @* Campo para definir nome da categoria *@
                 <label asp-for="Categoria.Nome" class="control-label fw-semibold mb-1">Nome da Categoria</label>
                 <input asp-for="Categoria.Nome" class="form-control py-2" placeholder="Ex: Workshop Técnico" />
-                // Exibe erro específico deste campo se inválido
-
+                
+                @* Exibe erro específico deste campo se inválido *@
                 <span asp-validation-for="Categoria.Nome" class="text-danger"></span>
             </div>
+            
             <div class="form-group d-flex gap-2">
-                // Submete formulário para gravar
-
+                @* Submete formulário para gravar *@
                 <input type="submit" value="Criar Categoria" class="btn btn-primary fw-bold px-4" />
-                // Navega de volta à página inicial
-
+                
+                @* Navega de volta à página inicial *@
                 <a asp-page="Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>
             </div>
         </form>
     </div>
 </div>
-@section Scripts {
-    // Carrega scripts de validação do lado do aluno
 
+@section Scripts {
+    @* Carrega scripts de validação do lado do aluno *@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

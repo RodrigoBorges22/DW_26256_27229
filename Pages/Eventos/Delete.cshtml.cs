@@ -25,7 +25,9 @@ namespace DW_26256_27229.Pages_Eventos
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null) return NotFound();
-            var evento = await _context.Eventos.FirstOrDefaultAsync(m => m.Id == id);
+            var evento = await _context.Eventos
+                .Include(e => e.Categoria)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (evento is not null)
             {
                 Evento = evento;
