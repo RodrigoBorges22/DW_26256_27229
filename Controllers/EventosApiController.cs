@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Data;
 using DW_26256_27229.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DW_26256_27229.Controllers;
 
+[Authorize(Roles = "Professor, Admin")]
 [Route("api/[controller]")]
 [ApiController]
 public class EventosApiController : ControllerBase
@@ -19,11 +21,11 @@ public class EventosApiController : ControllerBase
 
     // GET: api/EventosApi
     [HttpGet]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<Evento>>> GetEventos()
     {
-        // Vai à base de dados, pega em todos os eventos, 
-        // inclui a informação da Categoria associada, e devolve como lista JSON
-        return await _context.Eventos.Include(e => e.Categoria).ToListAsync();
+        var userId = int.Parse(User.FindFirst("UtilizadorId")!.Value);
+        return await _context.Eventos.Include(e => e.Categoria).Where(e => e.UtilizadorId == userId).ToListAsync();
     }
 
     // POST: api/EventosApi (Criar um evento novo)
@@ -42,7 +44,7 @@ public class EventosApiController : ControllerBase
     {
         // 1. Vai à base de dados procurar o evento com este ID
         var evento = await _context.Eventos.FindAsync(id);
-        
+
         // 2. Se não encontrar nada, avisa que não existe (Erro 404)
         if (evento == null)
         {

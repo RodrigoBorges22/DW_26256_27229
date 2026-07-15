@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using DW_26256_27229.Data;
 using DW_26256_27229.Models;
 
 namespace DW_26256_27229.Controllers
 {
+    [Authorize(Roles = "Professor, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class InscricoesApiController : ControllerBase

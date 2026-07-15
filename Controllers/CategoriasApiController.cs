@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Data;
 using DW_26256_27229.Models;
 namespace DW_26256_27229.Controllers
 {
+    [Authorize(Roles = "Professor, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriasApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         public CategoriasApiController(ApplicationDbContext context)
-        {
+        {   
             _context = context;
         }
         // GET: api/CategoriasApi
