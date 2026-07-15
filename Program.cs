@@ -29,6 +29,20 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        DW_26256_27229.Data.SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao injetar os dados iniciais.");
+    }
+}
+
 // Gestão de erros: Se algo correr mal, redireciona para a página de erro personalizada
 app.UseExceptionHandler("/Error");
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
