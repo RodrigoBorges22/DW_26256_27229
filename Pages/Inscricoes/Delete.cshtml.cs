@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Models;
 using Microsoft.AspNetCore.SignalR;
 using DW_26256_27229.Hubs;
+
 namespace DW_26256_27229.Pages_Inscricoes
 {
     public class DeleteModel : PageModel
@@ -13,26 +14,42 @@ namespace DW_26256_27229.Pages_Inscricoes
         private readonly IHubContext<NotificacaoHub> _hubContext;
 
         // Construtor com injeção de dependência do contexto da BD e do Hub do SignalR
-        public DeleteModel(DW_26256_27229.Data.ApplicationDbContext context, IHubContext<NotificacaoHub> hubContext) { _context = context; _hubContext = hubContext; }
+        public DeleteModel(DW_26256_27229.Data.ApplicationDbContext context, IHubContext<NotificacaoHub> hubContext) 
+        { 
+            _context = context; 
+            _hubContext = hubContext; 
+        }
+
         [BindProperty]
         public Inscricao Inscricao { get; set; } = default!;
 
         // Método chamado no carregamento da página para mostrar os dados antes da confirmação
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? eventoId, int? utilizadorId)
         {
-            if (id == null) return NotFound();
+            if (eventoId == null || utilizadorId == null) return NotFound();
 
-            // Busca a inscrição incluindo os detalhes do Utilizador e do Evento
-            var inscricao = await _context.Inscricoes.Include(i => i.Utilizador).Include(i => i.Evento).FirstOrDefaultAsync(m => m.Id == id);
-            if (inscricao != null) { Inscricao = inscricao; return Page(); }
+            // Busca a inscrição incluindo os detalhes do Utilizador e do Evento usando as duas chaves
+            var inscricao = await _context.Inscricoes
+                .Include(i => i.Utilizador)
+                .Include(i => i.Evento)
+                .FirstOrDefaultAsync(m => m.EventoId == eventoId && m.UtilizadorId == utilizadorId);
+                
+            if (inscricao != null) 
+            { 
+                Inscricao = inscricao; 
+                return Page(); 
+            }
             return NotFound();
         }
 
         // Método chamado quando o utilizador confirma a eliminação no formulário
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? eventoId, int? utilizadorId)
         {
-            if (id == null) return NotFound();
-            var inscricao = await _context.Inscricoes.FindAsync(id);
+            if (eventoId == null || utilizadorId == null) return NotFound();
+            
+            // O FindAsync suporta múltiplos parâmetros para chaves compostas!
+            var inscricao = await _context.Inscricoes.FindAsync(eventoId, utilizadorId);
+            
             if (inscricao != null)
             {
                 Inscricao = inscricao;

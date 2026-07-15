@@ -40,11 +40,13 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-sm" role="group">
-                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="Ver Detalhes da Inscrição">
+                            @* O link do botão Detalhes passa agora as duas chaves *@
+                            <a asp-page="./Details" asp-route-eventoId="@item.EventoId" asp-route-utilizadorId="@item.UtilizadorId" class="btn btn-outline-secondary" title="Ver Detalhes da Inscrição">
                                 Detalhes
                             </a>
                             
-                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-outline-danger fw-bold" title="Cancelar Inscrição">
+                            @* O link do botão Cancelar passa agora as duas chaves *@
+                            <a asp-page="./Delete" asp-route-eventoId="@item.EventoId" asp-route-utilizadorId="@item.UtilizadorId" class="btn btn-outline-danger fw-bold" title="Cancelar Inscrição">
                                 Cancelar Inscrição
                             </a>
                         </div>

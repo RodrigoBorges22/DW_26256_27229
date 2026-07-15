@@ -34,7 +34,8 @@
 </div>
 
 <form method="post">
-    <input type="hidden" asp-for="Inscricao.Id" />
+    <input type="hidden" asp-for="Inscricao.EventoId" />
+    <input type="hidden" asp-for="Inscricao.UtilizadorId" />
     <div class="d-flex gap-2">
         <input type="submit" value="Sim, Cancelar Inscrição" class="btn btn-danger fw-bold px-4" />
         <a asp-page="./Index" class="btn btn-outline-secondary fw-bold px-4">Voltar à Lista</a>

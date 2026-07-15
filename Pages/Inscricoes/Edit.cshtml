@@ -13,7 +13,8 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Inscricao.Id" />
+            <input type="hidden" asp-for="Inscricao.EventoId" />
+            <input type="hidden" asp-for="Inscricao.UtilizadorId" />
             <div class="form-group">
                 <label asp-for="Inscricao.UtilizadorId" class="control-label"></label>
                 <select asp-for="Inscricao.UtilizadorId" class="form-control" asp-items="ViewBag.UtilizadorId" ></select>

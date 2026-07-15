@@ -26,19 +26,30 @@ namespace DW_26256_27229.Pages_Inscricoes
         // Objeto que conterá os dados da inscrição a visualizar
         public Inscricao Inscricao { get; set; } = default!;
 
-        // Método acionado via HTTP GET para carregar os detalhes da inscrição pelo seu ID
-        public async Task<IActionResult> OnGetAsync(int? id)
+        // Método acionado via HTTP GET para carregar os detalhes da inscrição pelas suas duas chaves
+        public async Task<IActionResult> OnGetAsync(int? eventoId, int? utilizadorId)
         {
-            // Verifica se o ID foi fornecido; se não, retorna erro 404
-            if (id == null) return NotFound();
+            // Verifica se ALGUM dos IDs está em falta; se sim, retorna erro 404
+            if (eventoId == null || utilizadorId == null) 
+            {
+                return NotFound();
+            }
 
-            // Busca a inscrição na base de dados, incluindo os dados relacionados de Evento e Utilizador
-            var inscricao = await _context.Inscricoes.Include(i => i.Evento).Include(i => i.Utilizador).FirstOrDefaultAsync(m => m.Id == id);
+            // Busca a inscrição na base de dados, combinando a pesquisa do EventoId com o UtilizadorId
+            var inscricao = await _context.Inscricoes
+                .Include(i => i.Evento)
+                .Include(i => i.Utilizador)
+                .FirstOrDefaultAsync(m => m.EventoId == eventoId && m.UtilizadorId == utilizadorId);
 
             // Se a inscrição não for encontrada, retorna erro 404
-            if (inscricao == null) return NotFound();
+            if (inscricao == null) 
+            {
+                return NotFound();
+            }
+            
             // Atribui a inscrição encontrada à propriedade da página
             Inscricao = inscricao;
+            
             // Retorna a página com os dados carregados
             return Page();
         }

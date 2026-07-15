@@ -51,3 +51,6 @@ Content-Type: application/json
 
 ### Testar listar todos os eventos
 GET https://localhost:5066/api/EventosApi
+
+### Buscar uma inscrição específica (Exemplo: Evento 1, Utilizador 2)
+GET https://localhost:7119/api/InscricoesApi/1/2

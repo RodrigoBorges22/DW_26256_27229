@@ -25,19 +25,23 @@ namespace DW_26256_27229.Pages_Inscricoes
         public Inscricao Inscricao { get; set; } = default!;
 
         // Método chamado quando SE entra na página (carrega os dados atuais da inscrição para o formulário)
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? eventoId, int? utilizadorId)
         {
-            if (id == null)
+            if (eventoId == null || utilizadorId == null)
             {
-                return NotFound(); // Erro se não for passado nenhum ID
+                return NotFound(); // Erro se faltar algum dos IDs
             }
 
-            var inscricao =  await _context.Inscricoes.FirstOrDefaultAsync(m => m.Id == id);
+            // Procura usando a chave composta
+            var inscricao =  await _context.Inscricoes.FirstOrDefaultAsync(m => m.EventoId == eventoId && m.UtilizadorId == utilizadorId);
+            
             if (inscricao == null)
             {
                 return NotFound(); // Erro se a inscrição não existir na base de dados
             }
+            
             Inscricao = inscricao;
+            
             // Prepara as listas para os dropdowns (selects) de Eventos e Utilizadores na interface
             ViewData["EventoId"] = new SelectList(_context.Eventos, "Id", "Id");
             ViewData["UtilizadorId"] = new SelectList(_context.Utilizadores, "Id", "Id");
@@ -63,8 +67,8 @@ namespace DW_26256_27229.Pages_Inscricoes
             }
             catch (DbUpdateConcurrencyException)
             {
-                // Verifica se a inscrição ainda existe caso ocorra um erro de concorrência
-                if (!InscricaoExists(Inscricao.Id))
+                // Verifica se a inscrição ainda existe usando as duas chaves
+                if (!InscricaoExists(Inscricao.EventoId, Inscricao.UtilizadorId))
                 {
                     return NotFound();
                 }
@@ -78,10 +82,10 @@ namespace DW_26256_27229.Pages_Inscricoes
             return RedirectToPage("./Index");
         }
 
-        // Método auxiliar para verificar a existência de uma inscrição
-        private bool InscricaoExists(int id)
+        // Método auxiliar atualizado para verificar a existência de uma inscrição com chave composta
+        private bool InscricaoExists(int eventoId, int utilizadorId)
         {
-            return _context.Inscricoes.Any(e => e.Id == id);
+            return _context.Inscricoes.Any(e => e.EventoId == eventoId && e.UtilizadorId == utilizadorId);
         }
     }
 }

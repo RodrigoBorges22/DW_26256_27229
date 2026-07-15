@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DW_26256_27229.Data;
@@ -20,16 +25,15 @@ namespace DW_26256_27229.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inscricao>>> GetInscricoes()
         {
-            return await _context.Inscricoes
-                .Include(i => i.Evento) // Traz os dados do evento associado
-                .ToListAsync();
+            return await _context.Inscricoes.ToListAsync();
         }
 
-        // GET: api/InscricoesApi/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Inscricao>> GetInscricao(int id)
+        // GET: api/InscricoesApi/5/10  (Passa a receber o ID do Evento e do Utilizador)
+        [HttpGet("{eventoId}/{utilizadorId}")]
+        public async Task<ActionResult<Inscricao>> GetInscricao(int eventoId, int utilizadorId)
         {
-            var inscricao = await _context.Inscricoes.FindAsync(id);
+            // Usa o FindAsync com as duas chaves compostas
+            var inscricao = await _context.Inscricoes.FindAsync(eventoId, utilizadorId);
 
             if (inscricao == null)
             {
@@ -39,48 +43,67 @@ namespace DW_26256_27229.Controllers
             return inscricao;
         }
 
+        // PUT: api/InscricoesApi/5/10
+        [HttpPut("{eventoId}/{utilizadorId}")]
+        public async Task<IActionResult> PutInscricao(int eventoId, int utilizadorId, Inscricao inscricao)
+        {
+            // Valida se as chaves batem certo com o objeto enviado
+            if (eventoId != inscricao.EventoId || utilizadorId != inscricao.UtilizadorId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(inscricao).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!InscricaoExists(eventoId, utilizadorId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // POST: api/InscricoesApi
         [HttpPost]
         public async Task<ActionResult<Inscricao>> PostInscricao(Inscricao inscricao)
         {
-            // 1. Ir buscar o evento à base de dados para saber o limite de vagas
-            var evento = await _context.Eventos.FindAsync(inscricao.EventoId);
-            if (evento == null)
-            {
-                return NotFound("Erro: O evento que tentou aceder não existe.");
-            }
-
-            // 2. Contar quantas inscrições já existem para este evento específico
-            var totalInscritos = await _context.Inscricoes
-                .CountAsync(i => i.EventoId == inscricao.EventoId);
-
-            // 3. Verificar se o evento já esgotou
-            if (totalInscritos >= evento.VagasMaximas)
-            {
-                return BadRequest($"Inscrição recusada: O evento '{evento.Titulo}' já está lotado!");
-            }
-
-            // 4. Verificar se este utilizador já está inscrito neste evento
-            var jaInscrito = await _context.Inscricoes
-                .AnyAsync(i => i.EventoId == inscricao.EventoId && i.UtilizadorId == inscricao.UtilizadorId);
-
-            if (jaInscrito)
-            {
-                return BadRequest("Inscrição recusada: Este utilizador já se encontra inscrito neste evento.");
-            }
-
-            // Se passou por todas as barreiras de segurança, guardar
             _context.Inscricoes.Add(inscricao);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (InscricaoExists(inscricao.EventoId, inscricao.UtilizadorId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction(nameof(GetInscricao), new { id = inscricao.Id }, inscricao);
+            // Ao devolver o caminho de criação, envia ambas as chaves
+            return CreatedAtAction("GetInscricao", new { eventoId = inscricao.EventoId, utilizadorId = inscricao.UtilizadorId }, inscricao);
         }
 
-        // DELETE: api/InscricoesApi/5 (Desistir da inscrição)
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInscricao(int id)
+        // DELETE: api/InscricoesApi/5/10
+        [HttpDelete("{eventoId}/{utilizadorId}")]
+        public async Task<IActionResult> DeleteInscricao(int eventoId, int utilizadorId)
         {
-            var inscricao = await _context.Inscricoes.FindAsync(id);
+            var inscricao = await _context.Inscricoes.FindAsync(eventoId, utilizadorId);
             if (inscricao == null)
             {
                 return NotFound();
@@ -90,6 +113,12 @@ namespace DW_26256_27229.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // Método auxiliar atualizado para as duas chaves
+        private bool InscricaoExists(int eventoId, int utilizadorId)
+        {
+            return _context.Inscricoes.Any(e => e.EventoId == eventoId && e.UtilizadorId == utilizadorId);
         }
     }
 }

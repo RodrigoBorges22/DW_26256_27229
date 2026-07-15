@@ -14,10 +14,14 @@ public class ApplicationDbContext : DbContext
     public DbSet<Utilizador> Utilizadores { get; set; }
     public DbSet<Inscricao> Inscricoes { get; set; }
 
-    // NOVA PARTE: A injeção de dados automáticos
+    // injeção de dados automáticos
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        //define a chave primária composta para a tabela de junçao M-N
+        modelBuilder.Entity<Inscricao>()
+                .HasKey(i => new { i.EventoId, i.UtilizadorId });
 
         // 1. Injetar Categorias
         modelBuilder.Entity<Categoria>().HasData(
