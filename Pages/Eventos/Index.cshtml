@@ -32,6 +32,27 @@
     </div>
 }
 
+<div class="card shadow-sm border-0 mb-4 bg-light">
+    <div class="card-body p-3">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-5">
+                <label class="form-label fw-semibold text-secondary small mb-1">Pesquisar por Título</label>
+                <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Ex: Workshop, Redes, Cisco..." />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold text-secondary small mb-1">Filtrar por Categoria</label>
+                <select name="categoriaId" asp-items="Model.CategoriasDropdown" class="form-select">
+                    <option value="">Todas as Categorias</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary fw-bold w-100">Filtrar</button>
+                <a asp-page="./Index" class="btn btn-outline-secondary fw-bold w-100">Limpar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="table-responsive shadow-sm rounded">
     <table class="table table-hover align-middle mb-0 bg-white">
         <thead class="table-light">
@@ -44,6 +65,14 @@
             </tr>
         </thead>
         <tbody>
+            @if (!Model.Evento.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-muted fw-semibold">
+                        Nenhum evento encontrado com os filtros selecionados.
+                    </td>
+                </tr>
+            }
             @foreach (var item in Model.Evento)
             {
                 <tr>
@@ -66,24 +95,20 @@
                     <td class="text-center">
                         <div class="btn-group btn-group-sm" role="group">
 
-                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value ==
-                                   "Aluno")
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value == "Aluno")
                             {
-                                <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id"
-                                      style="display:inline;">
+                                <form method="post" asp-page-handler="Inscrever" asp-route-id="@item.Id" style="display:inline;">
                                     <button type="submit" class="btn btn-outline-success fw-bold me-1" title="Inscrever-me">
                                         Inscrever
                                     </button>
                                 </form>
                             }
 
-                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary"
-                               title="Ver Detalhes">
+                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-secondary" title="Ver Detalhes">
                                 Detalhes
                             </a>
 
-                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value !=
-                                             "Aluno")
+                            @if (User.FindFirst(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType)?.Value != "Aluno")
                             {
                                 <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Editar">
                                     Editar
@@ -105,7 +130,10 @@
         
         @* Botão Anterior *@
         <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
-            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)">
+            <a class="page-link" asp-page="./Index" 
+               asp-route-pageIndex="@(Model.PageIndex - 1)"
+               asp-route-searchString="@Model.SearchString"
+               asp-route-categoriaId="@Model.SelectedCategoriaId">
                 Anterior
             </a>
         </li>
@@ -119,7 +147,10 @@
 
         @* Botão Seguinte *@
         <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
-            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)">
+            <a class="page-link" asp-page="./Index" 
+               asp-route-pageIndex="@(Model.PageIndex + 1)"
+               asp-route-searchString="@Model.SearchString"
+               asp-route-categoriaId="@Model.SelectedCategoriaId">
                 Seguinte
             </a>
         </li>
