@@ -26,6 +26,7 @@ namespace DW_26256_27229.Pages_Eventos
         // Processa a criação e associa ao utilizador logado
         public async Task<IActionResult> OnPostAsync()
         {
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nome");
             var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)!.Value;
             Evento.UtilizadorId = _context.Utilizadores.First(u => u.Email == email).Id;
 
