@@ -50,6 +50,8 @@ namespace DW_26256_27229.Pages_Categorias
                 if (!CategoriaExists(Categoria.Id)) return NotFound();
                 else throw;
             }
+
+            TempData["MensagemSucesso"] = "Registo atualizado com sucesso!";
             return RedirectToPage("./Index");
         }
 

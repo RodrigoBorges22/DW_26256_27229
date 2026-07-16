@@ -46,6 +46,8 @@ namespace DW_26256_27229.Pages_Categorias
             _context.Categorias.Add(Categoria);
             await _context.SaveChangesAsync();
 
+            TempData["MensagemSucesso"] = "Registo criado com sucesso!";
+
             // Volta para a lista de categorias
             return RedirectToPage("./Index");
         }

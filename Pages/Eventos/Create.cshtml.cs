@@ -37,6 +37,7 @@ namespace DW_26256_27229.Pages_Eventos
 
             _context.Eventos.Add(Evento);
             await _context.SaveChangesAsync();
+            TempData["MensagemSucesso"] = "Registo criado com sucesso!";
             return RedirectToPage("./Index");
         }
     }

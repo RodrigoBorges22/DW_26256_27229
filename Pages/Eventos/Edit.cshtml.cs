@@ -77,6 +77,8 @@ namespace DW_26256_27229.Pages_Eventos
                 }
             }
 
+            TempData["MensagemSucesso"] = "Registo atualizado com sucesso!";
+            
             // Redireciona para a lista de eventos após sucesso
             return RedirectToPage("./Index");
         }
