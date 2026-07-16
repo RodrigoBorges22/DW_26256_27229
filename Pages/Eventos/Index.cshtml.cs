@@ -87,8 +87,11 @@ namespace DW_26256_27229.Pages_Eventos
             var totalEventos = await query.CountAsync();
             TotalPages = (int)Math.Ceiling(totalEventos / (double)pageSize);
 
-            //se os filtros reduzirem as páginas e ficarmos perdidos fora do range
-            if (PageIndex > TotalPages && TotalPages > 0)
+            // CORREÇÃO: Garantir que existe sempre pelo menos 1 página visualmente
+            if (TotalPages == 0) TotalPages = 1;
+
+            // Segurança: Se os filtros reduzirem as páginas e ficar perdido fora do range
+            if (PageIndex > TotalPages)
             {
                 PageIndex = TotalPages;
             }

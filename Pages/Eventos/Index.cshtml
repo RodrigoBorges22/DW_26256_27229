@@ -69,7 +69,14 @@
             {
                 <tr>
                     <td colspan="5" class="text-center py-4 text-muted fw-semibold">
-                        Nenhum evento encontrado com os filtros selecionados.
+                        @if (!string.IsNullOrEmpty(Model.SearchString) || Model.SelectedCategoriaId.HasValue)
+                        {
+                            <span>Nenhum evento encontrado com os filtros selecionados.</span>
+                        }
+                        else
+                        {
+                            <span>Ainda não existem eventos disponíveis.</span>
+                        }
                     </td>
                 </tr>
             }
