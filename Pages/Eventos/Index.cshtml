@@ -99,3 +99,29 @@
         </tbody>
     </table>
 </div>
+
+<nav aria-label="Navegação de páginas de Eventos" class="mt-4">
+    <ul class="pagination justify-content-center">
+        
+        @* Botão Anterior *@
+        <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex - 1)">
+                Anterior
+            </a>
+        </li>
+
+        @* Informação da Página Atual *@
+        <li class="page-item disabled">
+            <span class="page-link text-dark fw-bold">
+                Página @Model.PageIndex de @Model.TotalPages
+            </span>
+        </li>
+
+        @* Botão Seguinte *@
+        <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.PageIndex + 1)">
+                Seguinte
+            </a>
+        </li>
+    </ul>
+</nav>
